@@ -1,11 +1,13 @@
 package org.launchcode.techjobs.persistent.models;
 
+import jakarta.persistence.Entity;
 import jakarta.persistence.ManyToMany;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
 
 import java.util.ArrayList;
 import java.util.List;
+@Entity
 
 public class Skill extends AbstractEntity {
     @NotEmpty

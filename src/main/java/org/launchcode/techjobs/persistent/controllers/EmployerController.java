@@ -9,16 +9,18 @@ import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 @Controller
-@RequestMapping("employers")
+@RequestMapping("/employers")
 public class EmployerController {
     @Autowired
     private EmployerRepository employerRepository;
 
     @GetMapping("/")
     public String index(Model model) {
+        List<Employer> employers = (List<Employer>) employerRepository.findAll();
         model.addAttribute("employers", employerRepository.findAll());
         return "employers/index";
     }
@@ -36,14 +38,15 @@ public class EmployerController {
         if (errors.hasErrors()) {
             return "employers/add";
         }
-
+        employerRepository.save(newEmployer);
         return "redirect:";
     }
 
     @GetMapping("view/{employerId}")
     public String displayViewEmployer(Model model, @PathVariable int employerId) {
 
-        Optional optEmployer = null;
+        Optional<Employer> optEmployer = employerRepository.findById(employerId);
+//        Optional optEmployer = null;
         if (optEmployer.isPresent()) {
             Employer employer = (Employer) optEmployer.get();
             model.addAttribute("employer", employer);
